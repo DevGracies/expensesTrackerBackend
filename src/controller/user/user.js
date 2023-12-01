@@ -10,7 +10,7 @@ const createUser = async (req, res) => {
   });
   res.status(httpStatus.CREATED).json({
     status: "success",
-    payload: "user created",
+    payload: createUser,
   });
 };
 

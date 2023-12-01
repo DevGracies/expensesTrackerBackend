@@ -21,7 +21,7 @@ const categoryShema = new mongoose.Schema(
     // },
 
     name: { type: String, unique: true, required: true },
-    user: {},
+    userId: { type: mongoose.Schema.Types.ObjectId },
   },
   { timestamps: true }
 );
