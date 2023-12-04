@@ -1,4 +1,3 @@
-import { string } from "joi";
 import mongoose from "mongoose";
 
 const categoryShema = new mongoose.Schema(
@@ -21,7 +20,7 @@ const categoryShema = new mongoose.Schema(
     // },
 
     name: { type: String, unique: true, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );

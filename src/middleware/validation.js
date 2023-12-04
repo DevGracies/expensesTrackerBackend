@@ -14,7 +14,7 @@ export const validationMiddleware = (schema, type) => {
     } catch (error) {
       const errors = [];
       error.details.forEach((error) => {
-        error.push(error.message);
+        errors.push(error.message);
       });
       res.status(httpStatus.BAD_REQUEST).json({
         error: "validation error",
