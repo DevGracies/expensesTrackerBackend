@@ -1,11 +1,35 @@
+import bcrypt from "bcryptjs/dist/bcrypt.js";
 import User from "../../models/user/user.js";
 import httpStatus from "http-status";
+import { jwtToken } from "../../util/generateToken.js";
 
 const createUser = async (req, res) => {
   const data = req.body;
+  const userExist = await User.findOne({ user: data.username });
+  if (userExist) {
+    res.status(httpStatus.BAD_REQUEST).json({
+      status: "Error",
+      payload: "Username already existing",
+    });
+    return;
+  }
+
+  const emailExist = await User.findOne({ email: data.email });
+  if (emailExist) {
+    res.status(httpStatus.BAD_REQUEST).json({
+      status: "Error",
+      payload: "Email already existing",
+    });
+    return;
+  }
+
+  //hash password
+  const sumRound = 10;
+  const hash = await bcrypt.hash(data.password, sumRound);
+
   const createUser = await User.create({
     username: data.username,
-    password: data.password,
+    password: hash, //hash the password using bcrypt
     email: data.email,
   });
   res.status(httpStatus.CREATED).json({
@@ -26,18 +50,27 @@ const loginUser = async (req, res) => {
     });
     return;
   }
-  if (userExist.password !== data.password) {
-    res.status(httpStatus.BAD_GATEWAY).json({
+  //check that password is correct
+  const iscomfirmed = await ComparePassword(data.password, userExist.password);
+
+  if (!iscomfirmed) {
+    res.status(httpStatus.BAD_REQUEST).json({
       status: "error",
       payload: "password not correct",
     });
     return;
   }
+
   res.status(httpStatus.OK).json({
     status: "success",
     data: userExist,
+    token: jwtToken(userExist._id, userExist.email),
   });
 };
+
+async function ComparePassword(plainPassword, hashedPassword) {
+  return bcrypt.compare(plainPassword, hashedPassword);
+}
 
 const getAllUser = async (req, res) => {
   try {

@@ -1,15 +1,15 @@
-import { verifyUser } from "../../middleware/verifyUser";
-import { validationMiddleware } from "../../middleware/validation";
-import express from "express";
+import { verifyUser } from "../middleware/verifyUser.js";
+import { validationMiddleware } from "../middleware/validation.js";
 import {
   createCategory,
   deleteCategory,
   getCategories,
   getCategory,
   updateCategory,
-} from "../../controller/category/category";
-import { createUserSchema } from "../../controller/category/categorySchema";
-const router = express.Route();
+} from "../controller/category/category.js";
+import { createUserSchema } from "../controller/category/categorySchema.js";
+import express from "express";
+const router = express.Router();
 router
   .route("/")
   .get(verifyUser, getCategories)
