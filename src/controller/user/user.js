@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
 
   const createUser = await User.create({
     username: data.username,
-    password: hash, //hash the password using bcrypt
+    password: hash, //hash the password usa ing bcrypt
     email: data.email,
   });
   res.status(httpStatus.CREATED).json({
