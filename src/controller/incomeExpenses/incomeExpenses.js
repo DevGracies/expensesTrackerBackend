@@ -31,12 +31,21 @@ export const getIncomeExpense = async (req, res) => {
   if (!get) {
     res.status(httpStatus.NOT_FOUND).json({
       status: "Error",
-      payload: "User not found",
+      payload: "IncomeExpense not found",
     });
 
     res.status(httpStatus.OK).json({
       status: "Success",
       payload: get,
     });
+  }
+};
+
+export const updatedIncomeExpense = async (req, res) => {
+  const { incomeExpenseId } = req.params;
+  const {} = req.body;
+  const IncomeExpense = await incomeExpense.findOne({ category: categoryId });
+  if (!IncomeExpense) {
+    re;
   }
 };
